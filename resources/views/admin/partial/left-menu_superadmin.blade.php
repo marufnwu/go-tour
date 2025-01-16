@@ -54,12 +54,6 @@
   </a>
 </li>
 
-<li class="nav-item {{ request()->is('media*')?'active':'' }}">
-  <a class="nav-link" href="{{ route('media.index') }}">
-      <i class="fas fa-fw fa-user"></i>
-      <span>Media Type</span>
-  </a>
-</li>
 <li class="nav-item {{ request()->is('assign_media*')?'active':'' }}">
   <a class="nav-link" href="{{ route('assign_media.index') }}">
       <i class="fas fa-fw fa-user"></i>

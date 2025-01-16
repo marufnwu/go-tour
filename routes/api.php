@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\HotelApiController;
 use App\Http\Controllers\Api\FlightApiController;
 use App\Http\Controllers\Api\PassengerApiController;
 use App\Http\Controllers\Api\ItineraryApiController;
+use App\Http\Controllers\Api\TourRoomApiController;
 
 use Illuminate\Validation\ValidationException;
 
@@ -40,3 +41,11 @@ Route::post('/flight', [FlightApiController::class,'index']);
 Route::post('/passenger', [PassengerApiController::class,'index']);
 
 Route::post('/itinerary', [ItineraryApiController::class,'index']);
+
+Route::post('/tour_room', [TourRoomApiController::class,'index']);
+
+Route::post('/tour_room/create', [TourRoomApiController::class,'create']);
+
+Route::post('/tour_room/delete', [TourRoomApiController::class,'destroy']);
+
+Route::post('/tour_room/update', [TourRoomApiController::class,'update']);

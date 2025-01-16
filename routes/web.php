@@ -21,7 +21,7 @@ use App\Http\Controllers\Admin\GuideReservationController;
 use App\Http\Controllers\Admin\HotelController;
 use App\Http\Controllers\Admin\LeaderFlightController;
 use App\Http\Controllers\Admin\MediaAssignController;
-use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Admin\PassengerIdController;
 use App\Http\Controllers\Admin\PassengerInformationController;
 use App\Http\Controllers\Admin\PassengerInformationsController;
 use App\Http\Controllers\Admin\PassengerPaymentController;
@@ -70,6 +70,9 @@ Route::get('/clear-cache', function() {
     Artisan::call('config:cache');
     return "Cleared!";
 });
+
+Route::get('/passenger_id', [PassengerIdController::class,'index']);
+
 
 /*Route::get('/dashboard', function () {
     return view('dashboard');

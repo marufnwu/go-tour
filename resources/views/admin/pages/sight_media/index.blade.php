@@ -32,8 +32,7 @@
                         <tr>
                             {{-- <th class="text-center">#</th> --}}
                             <th class="align-text-top">Sight Name</th>
-                            <th class="align-text-top">Media Type</th>
-                            <th class="align-text-top">Media Link</th>
+                            <th class="align-text-top">Media</th>
                             <th class="text-center">Action</th>
                         </tr>
                         </thead>
@@ -41,8 +40,11 @@
                         @foreach($medias as $media)
                             <tr>
                                 <td>{{ isset($media->sight->sight_name) ? $media->sight->sight_name : '-' }}</td>
-                                <td>{{ isset($media->type->media_type_name) ? $media->type->media_type_name : '-' }}</td>
-                                <td>{{ $media->media_link }}</td>
+                                <td>
+                                    <a target="_blank" class="btn btn-sm" style="background: #49f;" href="{{ route('assign_media.show',$media->id) }}" onmouseover="this.style.background = '#27e' " onmouseleave="this.style.background = '#49f' ">
+                                        <i class="fas fa-eye" style="color: #fff;" ></i>
+                                    </a>
+                                </td>
 
                                 <td class="text-center">
 
@@ -75,5 +77,9 @@
 
 
 @section('scripts')
+<script>
+    
 
+
+</script>
 @endsection

@@ -32,7 +32,7 @@
         @include('admin.partial.left-menu-hotel')
     @elseif(auth()->user()->type=='BC')
         @include('admin.partial.left-menu-transport')
-    @elseif(auth()->user()->type=='Admin' || auth()->user()->type=='OP'))
+    @elseif(auth()->user()->type=='Admin' || auth()->user()->type=='OP')
         @include('admin.partial.left-menu_superadmin')
     @endif
 

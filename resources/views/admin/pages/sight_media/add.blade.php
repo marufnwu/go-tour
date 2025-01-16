@@ -1,3 +1,4 @@
+
 @extends('admin.layouts.master')
 
 @section('title','Admin | Assign Media')
@@ -27,7 +28,7 @@
             @csrf
               <div class="card-body">
                 <div class="row">
-                    <div class="col-lg-4">
+                    <div class="col-lg-12">
                         <div class="form-group">
                             <label for="" class="font-weight-bold">Sight Name<span class="text-danger">*</span></label>
                             <select class="form-control" name="sight_id">
@@ -36,28 +37,102 @@
                                 <option value="{{ $sight->id }}">{{ $sight->sight_name }}</option>
                               @endforeach
                             </select>
+                            @error('sight_id')
+                                <span class="input-error">{{$message}}</span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="" class="font-weight-bold">Video<span class="text-danger">*</span></label>
+                            <input class="esInput form-control" oninput="replaceImg('esInput','esvideo')" name="esvideo" type="text" value="{{ old('esvideo') }}"  placeholder="">
+                            <iframe src="{{ old('esvideo') }}" class="esvideo" style="width: 100%; aspect-ratio: 4/3; margin: 10px 0;" ></iframe>
+                            @error('esvideo')
+                                <span class="input-error">{{$message}}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="" class="font-weight-bold">description<span class="text-danger">*</span></label>
+                            <textarea class="form-control" name="esdescription" style="height: 200px; resize: none">{{ old('esdescription') }}</textarea>
+                            @error('esdescription')
+                                <span class="input-error">{{$message}}</span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="" class="font-weight-bold">Image 1<span class="text-danger">*</span></label>
+                            <input id="from" type="text" class="imginput1 form-control" oninput="replaceImg('imginput1','img1')" name="img1" value="{{ old('img1') }}"  placeholder="">
+                            <iframe src="{{ old('img1') }}" class="img1" style="width: 90%; aspect-ratio: 4/3; margin: 10px;" allow="autoplay"></iframe>
+                            @error('img1')
+                                <span class="input-error">{{$message}}</span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
-                            <label for="" class="font-weight-bold">Media Type<span class="text-danger">*</span></label>
-                            <select class="form-control" name="media_type_id">
-                              <option value="">Select Media Type</option>
-                              @foreach ($types as $type)
-                                <option value="{{ $type->id }}">{{ $type->media_type_name }}</option>
-                              @endforeach
-                            </select>
+                            <label for="" class="font-weight-bold">Image 2<span class="text-danger">*</span></label>
+                            <input id="from" type="text" class="imginput2 form-control" oninput="replaceImg('imginput2','img2')" name="img2" value="{{ old('img2') }}"  placeholder="">
+                            <iframe src="{{ old('img2') }}" class="img2" style="width: 90%; aspect-ratio: 4/3; margin: 10px;" allow="autoplay"></iframe>
+                            @error('img2')
+                                <span class="input-error">{{$message}}</span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
-                            <label for="" class="font-weight-bold">Media Link<span class="text-danger">*</span></label>
-                            <input id="from" type="text" class="form-control" name="media_link" value=""  placeholder="">
-                            <p id="err-from" class="mb-0 text-danger small em"></p>
+                            <label for="" class="font-weight-bold">Image 3<span class="text-danger">*</span></label>
+                            <input id="from" type="text" class="imginput3 form-control" oninput="replaceImg('imginput3','img3')" name="img3" value="{{ old('img3') }}"  placeholder="">
+                            <iframe src="{{ old('img3') }}" class="img3" style="width: 90%; aspect-ratio: 4/3; margin: 10px;" allow="autoplay"></iframe>
+                            @error('img3')
+                                <span class="input-error">{{$message}}</span>
+                            @enderror
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="" class="font-weight-bold">Image 4</label>
+                            <input id="from" type="text" class="imginput4 form-control" oninput="replaceImg('imginput4','img4')" name="img4" value="{{ old('img4') }}"  placeholder="">
+                            <iframe src="{{ old('img4') }}" class="img4" style="width: 90%; aspect-ratio: 4/3; margin: 10px;" allow="autoplay"></iframe>
+                            @error('img4')
+                                <span class="input-error">{{$message}}</span>
+                            @enderror
+                            
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="" class="font-weight-bold">Image 5</label>
+                            <input id="from" type="text" class="imginput5 form-control" oninput="replaceImg('imginput5','img5')" name="img5" value="{{ old('img5') }}"  placeholder="">
+                            <iframe src="{{ old('img5') }}" class="img5" style="width: 90%; aspect-ratio: 4/3; margin: 10px;" allow="autoplay"></iframe>
+                            @error('img5')
+                                <span class="input-error">{{$message}}</span>
+                            @enderror
+                            
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="" class="font-weight-bold">Image 6</label>
+                            <input id="from" type="text" class="imginput6 form-control" oninput="replaceImg('imginput6','img6')" name="img6" value="{{ old('img6') }}"  placeholder="">
+                            <iframe src="{{ old('img6') }}" class="img6" style="width: 90%; aspect-ratio: 4/3; margin: 10px;" allow="autoplay"></iframe>
+                            @error('img6')
+                                <span class="input-error">{{$message}}</span>
+                            @enderror
                         </div>
                     </div>
                 </div>
               </div>
+              
 
               <div class="modal-footer">
                   {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
@@ -73,14 +148,27 @@
             </form>
         </div>
     </div>
-    <!-- /.container-fluid -->
 
 @endsection
 
 
 @section('scripts')
     <script src="{{ asset('/')}}admin/js/croppie.js"></script>
+    <script type="text/javascript">
+        
+        const replaceImg = (input,img) => {
+            const inputElement = document.querySelector(`.${input}`);
+            const ImgElement = document.querySelector(`.${img}`);
+
+            ImgElement.src = inputElement.value
+        }
+
+
+
+    </script>
     <script>
+        
+        
 
         /* show file value after file select */
            /*document.querySelector('.custom-file-input').addEventListener('change',function(e){

@@ -179,7 +179,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        @if(auth()->user()->type == 'Admin')
+                        @if(auth()->user()->type == 'Admin' || auth()->user()->type == 'OP')
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="" class="font-weight-bold">Tour Leader Tour<span class="text-danger">*</span></label>
