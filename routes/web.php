@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\GuideReservationController;
 use App\Http\Controllers\Admin\HotelController;
 use App\Http\Controllers\Admin\LeaderFlightController;
 use App\Http\Controllers\Admin\MediaAssignController;
+use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\PassengerIdController;
 use App\Http\Controllers\Admin\PassengerInformationController;
 use App\Http\Controllers\Admin\PassengerInformationsController;
@@ -80,7 +81,7 @@ Route::get('/passenger_id', [PassengerIdController::class,'index']);
 
 Route::group(['middleware'=>['auth']],function (){
     Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('dashboard');
-    
+
     Route::resource('/user', UserController::class);
 
     Route::resource('/tourleaders', TourLeaderController::class);
@@ -88,13 +89,13 @@ Route::group(['middleware'=>['auth']],function (){
     Route::resource('/country', CountryController::class);
     Route::resource('/city', CityController::class);
     Route::resource('/activity', ActivityController::class);
-    
+
     Route::resource('/sight_list', SightController::class);
     Route::resource('/sight_distant', SightDistantController::class);
     Route::resource('/sight_reservation', SightReservationController::class);
-    
+
     Route::resource('/assign_media', MediaAssignController::class);
-    
+
     Route::resource('/guide', GuideController::class);
     Route::resource('/reserve_guide', GuideReservationController::class);
     Route::resource('/supplier', SupplierController::class);
@@ -102,7 +103,7 @@ Route::group(['middleware'=>['auth']],function (){
     Route::resource('/airport', AirportController::class);
     Route::resource('/gti', GtiController::class);/*General Tour Itinerary*/
     Route::resource('/itinerary', DayItineraryController::class);
-    
+
     Route::resource('/hotel', HotelController::class);
     Route::resource('/accommodation', AccommodationController::class);
     Route::resource('/fee', FeeController::class);
@@ -110,12 +111,12 @@ Route::group(['middleware'=>['auth']],function (){
     Route::resource('/reservation', ReservationController::class);
     Route::post('/reservation/{id}', [ReservationController::class, 'confirm'])->name('confirm');
     Route::post('/transport_reservation/{id}', [GroundTransportReservationController::class, 'confirm'])->name('transport_reservation');
-    
+
     Route::resource('/ticketprovider', AirlineTicketProviderController::class);
     Route::resource('/ticket_list', AirlineTicketController::class);
 
     Route::resource('/media', MediaController::class);
-    
+
     Route::resource('/passenger', PassengerInformationsController::class);
     Route::get('/suplier/pass_to_be_ticket', [PassengerInformationsController::class, 'pass_to_be_ticket'])->name('passenger.pass_to_be_ticket');
     Route::resource('/method_payment', PaymentMethodController::class);
@@ -130,17 +131,17 @@ Route::group(['middleware'=>['auth']],function (){
     //Route::resource('/ground_transport', GroundTransportReservationController::class);
 
     Route::resource('/flight_reservation', LeaderFlightController::class);
-    
+
     //Passenger
     Route::resource('/flight_arrangement', ArrangeFlightController::class);
     Route::resource('/hotel_arrangement', ArrangeHotelController::class);
-    
+
     //Tour Leader
     Route::resource('/tour_booking', AdminTourBookingController::class);
     Route::resource('/generate_brochure', GenerateBrochureController::class);
 
 
-    
+
     //ajax
     Route::get('/get_gti_total_days/{id}', [GtiController::class, 'get_gti_total_days'])->name('get_gti_total_days');
 

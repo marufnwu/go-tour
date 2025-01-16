@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
 
-class MediaAssignController extends Controller
+class MediaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -46,15 +46,15 @@ class MediaAssignController extends Controller
         $valideData = $request->validate([
             'sight_id' => 'required',
             'esvideo' => 'required',
-            'envideo' => 'required', 
-            'esdescription' => 'required', 
-            'endescription' => 'required', 
-            'img1' => 'required', 
-            'img2' => 'required', 
+            'envideo' => 'required',
+            'esdescription' => 'required',
+            'endescription' => 'required',
+            'img1' => 'required',
+            'img2' => 'required',
             'img3' => 'required',
-            'img4' => 'required', 
-            'img5' => 'required', 
-            'img6' => 'required', 
+            'img4' => 'required',
+            'img5' => 'required',
+            'img6' => 'required',
 
         ]);
 
@@ -90,7 +90,7 @@ class MediaAssignController extends Controller
         $medias = Mediaassign::find($id);
         $sights = Sight::all();
         $mediaLinks = json_decode($medias->media_link);
-        
+
         return view('admin.pages.sight_media.show', compact('mediaLinks', 'sights','medias'));
     }
 
@@ -124,15 +124,15 @@ class MediaAssignController extends Controller
         $valideData = $request->validate([
             'sight_id' => 'required',
             'esvideo' => 'required',
-            'envideo' => 'required', 
-            'esdescription' => 'required', 
-            'endescription' => 'required', 
-            'img1' => 'required', 
-            'img2' => 'required', 
+            'envideo' => 'required',
+            'esdescription' => 'required',
+            'endescription' => 'required',
+            'img1' => 'required',
+            'img2' => 'required',
             'img3' => 'required',
-            'img4' => 'required', 
-            'img5' => 'required', 
-            'img6' => 'required', 
+            'img4' => 'required',
+            'img5' => 'required',
+            'img6' => 'required',
 
         ]);
 
@@ -170,7 +170,7 @@ class MediaAssignController extends Controller
     {
         $medias = Mediaassign::find($id);
         $medias -> delete();
-        
+
         Session::flash('success', 'Deleted Successfully');
         return Redirect::route('assign_media.index');
     }

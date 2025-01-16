@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('guide_reservation', function (Blueprint $table) {
-            $table->int('tourleader_tour',11)->change();
+            $table->integer('tourleader_tour')->unsigned()->change(); // Revert to integer
         });
     }
 };
