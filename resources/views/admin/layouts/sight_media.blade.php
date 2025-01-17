@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +14,7 @@
         <div id="content">
             @if(!empty(auth()->user()))
             <!-- Topbar -->
-           
+
             <!-- End of Topbar -->
             @endif
             <!-- Begin Page Content -->
