@@ -103,10 +103,12 @@ class DayItineraryController extends Controller
             'day_itinerary' => 'required',
             'tour_id' => 'required',
             'country_id' => 'required',
+            'airport_id' => 'required',
             'city_id' => 'required',
             'sight_id' => 'required',
             'sight_distant_id' => 'required',
             'activity_id' => 'required',
+            "position"=>"required|numeric",
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',  // Required map image file (2MB max)
         ]);
 
@@ -128,7 +130,7 @@ class DayItineraryController extends Controller
 
         // Handle map image upload
         if ($request->hasFile('image')) {
-            $validatedData['image'] = ImageHelper::handleImageUpload($request->file('map'), 'itineraries');
+            $validatedData['image'] = ImageHelper::handleImageUpload($request->file('image'), 'itineraries');
         }
 
 
@@ -195,33 +197,53 @@ class DayItineraryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Tour $tour, TourItinerary $tourItinerary)
     {
         $valideData = $request->validate([
+            'title' => "required|string|max:255",
             'day_itinerary' => 'required',
-            'gti_id' => 'required',
+            'tour_id' => 'required',
             'country_id' => 'required',
+            'airport_id' => 'required',
             'city_id' => 'required',
             'sight_id' => 'required',
             'sight_distant_id' => 'required',
-            'activity_id' => 'required'
+            'activity_id' => 'required',
+            "position"=>"required|numeric",
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',  // Required map image file (2MB max)
         ]);
-        $itineraries = Dayitinerary::find($id);
 
-        $itineraries->day_itinerary = $request->input('day_itinerary');
-        $itineraries->gti_id = $request->input('gti_id');
-        $itineraries->country_id = $request->input('country_id');
-        $itineraries->city_id = $request->input('city_id');
-        $itineraries->sight_id = $request->input('sight_id');
-        $itineraries->sight_distant_id = $request->input('sight_distant_id');
-        $itineraries->airport_id = $request->input('airport_id');
-        $itineraries->activity_id = $request->input('activity_id');
-        $itineraries->position = $request->input('position');
+        $itinerary = $tourItinerary->dayItinerary;
 
-        $itineraries->update();
+        $itinerary->day_itinerary = $request->input('day_itinerary');
+        $itinerary->country_id = $request->input('country_id');
+        $itinerary->city_id = $request->input('city_id');
+        $itinerary->sight_id = $request->input('sight_id');
+        $itinerary->sight_distant_id = $request->input('sight_distant_id');
+        $itinerary->airport_id = $request->input('airport_id');
+        $itinerary->activity_id = $request->input('activity_id');
+        $itinerary->position = $request->input('position');
 
-        Session::flash('success', 'Day Itinerary has been Updated Successfully');
-        return Redirect::route('itinerary.index');
+
+        $itinerary->save();
+
+        // Handle map image upload
+        if ($request->hasFile('image')) {
+            $validatedData['image'] = ImageHelper::handleImageUpload($request->file('image'), 'itineraries');
+        }
+
+
+        $tourItinerary->update([
+            'tour_id' => $tour->id,
+            'dayitinerary_id' => $itinerary->id,
+            'day_no' => $itinerary->day_itinerary,
+            'title' => $valideData['title'],
+            'image'=>$valideData['image'] ?? null,
+        ]);
+
+
+        Session::flash('success', 'Day Itinerary has been updated Successfully');
+        return Redirect::route('tour.show', $tour->id);
     }
 
     /**
@@ -230,12 +252,11 @@ class DayItineraryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Tour $tour, TourItinerary $tourItinerary)
     {
-        $itineraries = Dayitinerary::find($id);
-        $itineraries->delete();
+        $tourItinerary->delete();
 
         Session::flash('success', 'Day Itinerary has been Deleted Successfully');
-        return Redirect::route('itinerary.index');
+        return Redirect::route('tour.show', $tour->id);
     }
 }

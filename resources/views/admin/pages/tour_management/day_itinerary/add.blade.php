@@ -23,8 +23,12 @@
                 </h4>
 
             </div>
-            <form id="ajaxForm" class="" action="{{ route('tour.itinerary.store', $tour->id) }}" method="POST"
-                enctype="multipart/form-data">
+            <form id="ajaxForm" class=""
+                action="{{ isset($tourItinerary) ? route('tour.itinerary.update', [$tour->id, $tourItinerary->id]) : route('tour.itinerary.store', $tour->id) }}"
+                method="POST" enctype="multipart/form-data">
+                @isset($tourItinerary)
+                    @method("PUT")
+                @endisset
                 @csrf
                 <div class="card-body">
                     <div class="row">
@@ -80,9 +84,13 @@
                                 <select id="activity-select" class="form-control form-margin-bottom" name="activity_id">
                                     <option value="">Select One</option>
                                     @foreach ($activities as $act)
-                                        <option value="{{ $act->id }}" {{ old('activity_id', optional($tourItinerary->dayItinerary)->activity_id) == $act->id ? 'selected' : '' }}                                            >{{ $act->activity_name }}</option>
+                                        <option value="{{ $act->id }}"
+                                            {{ old('activity_id', $tourItinerary->dayItinerary->activity_id ?? '') == $act->id ? 'selected' : '' }}>
+                                            {{ $act->activity_name }}
+                                        </option>
                                     @endforeach
                                 </select>
+
                                 @error('activity_id')
                                     <span
                                         class="input-error">{{ $message == 'The activity id field is required.' ? 'The ativity is required' : $message }}</span>
@@ -94,9 +102,11 @@
                                 <label for="" class="font-weight-bold">Sight<span
                                         class="text-danger">*</span></label>
                                 <select class="form-control form-margin-bottom" name="sight_id">
-                                    <option value="{{ old('sight_id') }}">Select One</option>
+                                    <option value="">Select One</option>
                                     @foreach ($sights as $country)
-                                        <option value="{{ @$country->id }}">{{ @$country->sight_name }}</option>
+                                        <option value="{{ @$country->id }}"
+                                            {{ old('sight_id', $tourItinerary->dayItinerary->sight_id ?? '') == $country->id ? 'selected' : '' }}>
+                                            {{ @$country->sight_name }}</option>
                                     @endforeach
                                 </select>
                                 @error('sight_id')
@@ -112,7 +122,9 @@
                                 <select class="form-control form-margin-bottom" name="sight_distant_id">
                                     <option value="{{ old('sight_distant_id') }}">Select One</option>
                                     @foreach ($distance as $distant)
-                                        <option value="{{ @$distant->id }}">{{ @$distant->distant_sight_name }}</option>
+                                        <option value="{{ @$distant->id }}"
+                                            {{ old('sight_distant_id', $tourItinerary->dayItinerary->sight_distant_id ?? '') == $distant->id ? 'selected' : '' }}>
+                                            {{ @$distant->distant_sight_name }}</option>
                                     @endforeach
                                 </select>
                                 @error('sight_distant_id')
@@ -132,7 +144,9 @@
                                 <select class="form-control form-margin-bottom" name="city_id">
                                     <option value="{{ old('city_id') }}">Select City</option>
                                     @foreach ($cities as $city)
-                                        <option value="{{ $city->id }}">{{ $city->city_name }}</option>
+                                        <option value="{{ $city->id }}"
+                                            {{ old('city_id', $tourItinerary->dayItinerary->city_id ?? '') == $city->id ? 'selected' : '' }}>
+                                            {{ $city->city_name }}</option>
                                     @endforeach
                                 </select>
                                 @error('city_id')
@@ -148,7 +162,9 @@
                                 <select class="form-control form-margin-bottom" name="country_id">
                                     <option value="{{ old('country_id') }}">Select Country</option>
                                     @foreach ($countries as $country)
-                                        <option value="{{ $country->id }}">{{ $country->country_name }}</option>
+                                        <option value="{{ $country->id }}"
+                                            {{ old('country_id', $tourItinerary->dayItinerary->country_id ?? '') == $country->id ? 'selected' : '' }}>
+                                            {{ $country->country_name }}</option>
                                     @endforeach
                                 </select>
                                 @error('country_id')
@@ -163,8 +179,10 @@
                                         class="text-danger">*</span></label>
                                 <select class="form-control form-margin-bottom" name="airport_id">
                                     <option value="{{ old('airport_id') }}">Select One</option>
-                                    @foreach ($airports as $country)
-                                        <option value="{{ @$country->id }}">{{ @$country->airport_name }}</option>
+                                    @foreach ($airports as $airport)
+                                        <option value="{{ @$airport->id }}"
+                                            {{ old('airport_id', $tourItinerary->dayItinerary->airport_id ?? '') == $airport->id ? 'selected' : '' }}>
+                                            {{ @$airport->airport_name }}</option>
                                     @endforeach
                                 </select>
                                 @error('airport_id')
@@ -183,17 +201,17 @@
                                         class="text-danger">*</span></label>
                                 <input id="from" type="number" min="0"
                                     class="form-control form-margin-bottom" name="position"
-                                    value="{{ old('position') }}" placeholder="Position...">
+                                    value="{{ old('position', $tourItinerary->dayItinerary->position ?? null) }}"
+                                    placeholder="Position...">
                                 @error('position')
                                     <span class="input-error">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
                         <div class="col-lg-4">
-                            <x-generic-form-input label="Banner Image" name="banner_image" type="file"
-                                accept="image/*" />
-                            @if (isset($tour->banner_image))
-                                <img src="{{ asset($tour->banner_image) }}" alt="Banner Image"
+                            <x-generic-form-input label="Image" name="image" type="file" accept="image/*" />
+                            @if (isset($tourItinerary->image))
+                                <img src="{{ asset($tourItinerary->image) }}" alt="Banner Image"
                                     class="img-thumbnail mt-2" style="max-width: 100px;">
                             @endif
                         </div>
@@ -207,7 +225,8 @@
                             <div class="col-xl-4 col-lg-4 col-md-3 col-12"></div>
                             <div class="col-xl-4 col-lg-4 col-md-6 col-12">
                                 <button id="submitBtn" type="submit" class="btn btn-primary btn-lg btn-block"><i
-                                        class="fa fa-check-circle" aria-hidden="true"></i> Save</button>
+                                        class="fa fa-check-circle" aria-hidden="true"></i>
+                                    {{ isset($tourItinerary) ? 'Update' : 'Save' }}</button>
                             </div>
                         </div>
                     </div>

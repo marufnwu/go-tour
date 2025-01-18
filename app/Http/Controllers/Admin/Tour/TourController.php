@@ -18,7 +18,8 @@ class TourController extends Controller
      */
     public function index()
     {
-        //
+        $tours = Tour::get();
+        return view("admin.pages.tour_management.tour.index", compact("tours"));
     }
 
     /**
@@ -85,9 +86,12 @@ class TourController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Tour $tour)
     {
-        //
+        $destinations = Destination::where("is_active", true)->get();
+        $cities = City::all();
+        $dayIteneries = Dayitinerary::all();
+        return view("admin.pages.tour_management.tour.create", compact("destinations", "cities", "dayIteneries", "tour"));
     }
 
     /**

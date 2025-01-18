@@ -19,9 +19,9 @@
                 <h4 class="m-0 font-weight-bold text-primary">
                     <i class="fas fa-info-circle"></i> Tour Details
                 </h4>
-                <a href="{{ route('destination-category.create') }}"
+                <a href="{{ route('tour.index') }}"
                     class="d-none d-sm-inline-block btn btn-primary shadow-sm btn-rounded">
-                    <i class="fa fa-plus"></i>&nbsp; Add Category </a>
+                    <i class="fa fa-arrow-left"></i>&nbsp; Back </a>
             </div>
         </div>
 
@@ -118,24 +118,52 @@
                                     <div class="card">
                                         <div class="card-header" id="heading{{ $tourItinerary->id }}">
                                             <h2 class="mb-0">
-                                                <button class="btn btn-link" type="button" data-toggle="collapse"
+                                                <button
+                                                    class="btn btn-link d-flex justify-content-between align-items-center w-100"
+                                                    type="button" data-toggle="collapse"
                                                     data-target="#collapse{{ $tourItinerary->id }}" aria-expanded="false"
-                                                    aria-controls="collapse{{ $tourItinerary->id }}" class="d-flex justify-content-between align-items-center">
+                                                    aria-controls="collapse{{ $tourItinerary->id }}">
 
-                                                    <!-- Collapse/Expand Icon -->
-                                                    <span class="mr-2">
-                                                        <i class="fa fa-plus" aria-hidden="true" id="icon{{ $tourItinerary->id }}"></i>
-                                                    </span>
+                                                    <!-- Left Section: Collapse/Expand Icon and Title -->
+                                                    <div class="d-flex align-items-center">
+                                                        <!-- Collapse/Expand Icon -->
+                                                        <span class="mr-2">
+                                                            <i class="fa fa-plus" aria-hidden="true"
+                                                                id="icon{{ $tourItinerary->id }}"></i>
+                                                        </span>
+                                                        <!-- Title and Day -->
+                                                        <span>
+                                                            {{ $tourItinerary->title }} (Day {{ $tourItinerary->day_no }})
+                                                        </span>
+                                                    </div>
 
-                                                    <!-- Title and Day -->
-                                                    {{ $tourItinerary->title }} (Day {{ $tourItinerary->day_no }})
+                                                    <!-- Right Section: Edit and Delete Icons -->
+                                                    <div>
+                                                        <a href="{{ route('tour.itinerary.edit', [$tour->id, $tourItinerary->id]) }}"
+                                                            class="text-primary mr-2">
+                                                            <i class="fa fa-edit" aria-hidden="true"></i>
+                                                        </a>
+                                                        <form id="deleteForm"
+                                                            action="{{ route('tour.itinerary.destroy', [$tour->id, $tourItinerary->id]) }}"
+                                                            method="POST"
+                                                            onsubmit="return confirm('Are you sure you want to delete this itinerary?');"
+                                                            style="display: inline;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <i class="fa fa-trash text-danger" aria-hidden="true"
+                                                                style="cursor: pointer;"
+                                                                onclick="document.getElementById('deleteForm').submit();"></i>
+                                                        </form>
 
+                                                    </div>
                                                 </button>
                                             </h2>
+
                                         </div>
 
                                         <div id="collapse{{ $tourItinerary->id }}" class="collapse"
-                                            aria-labelledby="heading{{ $tourItinerary->id }}" data-parent="#tourItineraryAccordion">
+                                            aria-labelledby="heading{{ $tourItinerary->id }}"
+                                            data-parent="#tourItineraryAccordion">
                                             <div class="card-body">
                                                 <h5>Day Itinerary Details</h5>
                                                 <p><strong>Day No:</strong> {{ $tourItinerary->day_no }}</p>
@@ -144,13 +172,20 @@
                                                 @if ($tourItinerary->dayItinerary)
                                                     <h6>Day Itinerary Information:</h6>
                                                     <ul>
-                                                        <li><strong>GTI:</strong> {{ $tourItinerary->dayItinerary->gti->name ?? 'N/A' }}</li>
-                                                        <li><strong>Country:</strong> {{ $tourItinerary->dayItinerary->cntry->name ?? 'N/A' }}</li>
-                                                        <li><strong>City:</strong> {{ $tourItinerary->dayItinerary->cty->name ?? 'N/A' }}</li>
-                                                        <li><strong>Activity:</strong> {{ $tourItinerary->dayItinerary->act->activity_name ?? 'N/A' }}</li>
-                                                        <li><strong>Sight:</strong> {{ $tourItinerary->dayItinerary->sight->name ?? 'N/A' }}</li>
-                                                        <li><strong>Distance:</strong> {{ $tourItinerary->dayItinerary->dis->distance ?? 'N/A' }}</li>
-                                                        <li><strong>Airport:</strong> {{ $tourItinerary->dayItinerary->air->airport_name ?? 'N/A' }}</li>
+                                                        <li><strong>Country:</strong>
+                                                            {{ $tourItinerary->dayItinerary->cntry->country_name ?? 'N/A' }}</li>
+                                                        <li><strong>City:</strong>
+                                                            {{ $tourItinerary->dayItinerary->cty->city_name ?? 'N/A' }}</li>
+                                                        <li><strong>Activity:</strong>
+                                                            {{ $tourItinerary->dayItinerary->act->activity_name ?? 'N/A' }}
+                                                        </li>
+                                                        <li><strong>Sight:</strong>
+                                                            {{ $tourItinerary->dayItinerary->sight->sight_name ?? 'N/A' }}</li>
+                                                        <li><strong>Distance:</strong>
+                                                            {{ $tourItinerary->dayItinerary->dis->distant_sight_name ?? 'N/A' }}</li>
+                                                        <li><strong>Airport:</strong>
+                                                            {{ $tourItinerary->dayItinerary->air->airport_name ?? 'N/A' }}
+                                                        </li>
                                                     </ul>
                                                 @else
                                                     <p>No day itinerary details available.</p>
@@ -162,17 +197,18 @@
                             </div>
 
                             <!-- Include FontAwesome for Icons -->
-                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+                            <link rel="stylesheet"
+                                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
                             <!-- JavaScript to toggle icons between plus and minus -->
                             <script>
                                 // Handle icon toggling for expand/collapse
-                                $('#tourItineraryAccordion .collapse').on('show.bs.collapse', function () {
+                                $('#tourItineraryAccordion .collapse').on('show.bs.collapse', function() {
                                     var id = $(this).attr('id');
                                     $('#icon' + id.replace('collapse', '')).removeClass('fa-plus').addClass('fa-minus');
                                 });
 
-                                $('#tourItineraryAccordion .collapse').on('hide.bs.collapse', function () {
+                                $('#tourItineraryAccordion .collapse').on('hide.bs.collapse', function() {
                                     var id = $(this).attr('id');
                                     $('#icon' + id.replace('collapse', '')).removeClass('fa-minus').addClass('fa-plus');
                                 });
