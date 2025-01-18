@@ -6,36 +6,34 @@ use Illuminate\Database\Seeder;
 use App\Models\Tour;
 use App\Models\Destination;
 use App\Models\City;
+use App\Models\DestinationCategory;
 
 class TourSeeder extends Seeder
 {
     public function run()
     {
-        // Find related models dynamically
-        $destination = Destination::where('name', 'Mecca')->first();
-        $arrivalCity = City::where('name', 'Jeddah')->first();
-        $departureCity = City::where('name', 'Riyadh')->first();
+        // Create 5 destination categories
+        $categories = [
+            ['name' => 'Beach Destinations', 'slug' => 'beach-destinations', 'is_active' => true],
+            ['name' => 'Mountain Adventures', 'slug' => 'mountain-adventures', 'is_active' => true],
+            ['name' => 'City Tours', 'slug' => 'city-tours', 'is_active' => true],
+            ['name' => 'Historical Sites', 'slug' => 'historical-sites', 'is_active' => false],
+            ['name' => 'Luxury Escapes', 'slug' => 'luxury-escapes', 'is_active' => true],
+        ];
 
-        if ($destination && $arrivalCity && $departureCity) {
-            Tour::firstOrCreate(
-                ['name' => 'Hajj Package 2025'],
-                [
-                    'destination_id' => $destination->id,
-                    'number' => 101,
-                    'duration' => 10,
-                    'arrival_city' => $arrivalCity->id,
-                    'departure_city' => $departureCity->id,
-                    'min_price' => 2000.00,
-                    'max_price' => 5000.00,
-                    'banner_image' => 'banner.jpg',
-                    'slug' => 'hajj-package-2025',
-                    'travel_strat_at' => now()->addDays(30),
-                    'travel_end_at' => now()->addDays(40),
-                    'booking_start_at' => now(),
-                    'booking_end_at' => now()->addDays(20),
+        foreach ($categories as $categoryData) {
+            $category = DestinationCategory::create($categoryData);
+
+            // Add 5 destinations for each category
+            for ($i = 1; $i <= 5; $i++) {
+                Destination::create([
+                    'destination_category_id' => $category->id,
+                    'name' => $category->name . " Destination " . $i,
+                    'description' => 'Explore the best of ' . $category->name . ' at Destination ' . $i,
+                    'slug' => $category->slug . '-destination-' . $i,
                     'is_active' => true,
-                ]
-            );
+                ]);
+            }
         }
     }
 }

@@ -33,8 +33,10 @@ use App\Http\Controllers\Admin\SightDistantController;
 use App\Http\Controllers\Admin\SightReservationController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\SupplierTypeController;
+use App\Http\Controllers\Admin\Tour\DayItineraryController as TourDayItineraryController;
 use App\Http\Controllers\Admin\Tour\DestinationController;
 use App\Http\Controllers\Admin\Tour\TourCategoryController;
+use App\Http\Controllers\Admin\Tour\TourController;
 use App\Http\Controllers\Admin\TourLeaderController;
 use App\Http\Controllers\Admin\TourLeaderTourController;
 use App\Http\Controllers\Admin\TransportationCarController;
@@ -48,7 +50,6 @@ use App\Http\Controllers\Passenger\ArrangeFlightController;
 use App\Http\Controllers\Passenger\ArrangeHotelController;
 use App\Http\Controllers\Passenger\PassengerReportController;
 use App\Http\Controllers\Passenger\SpecialRequestController;
-use App\Http\Controllers\Tour\TourController;
 use App\Http\Controllers\Transport\GroundTransportReservationController;
 use App\Models\Destination;
 use Illuminate\Support\Facades\Artisan;
@@ -150,6 +151,7 @@ Route::group(['middleware'=>['auth']],function (){
         Route::resource("/tour", TourController::class);
         Route::resource("/destination-category", TourCategoryController::class);
         Route::resource("/destination", DestinationController::class);
+        Route::resource("/tour/{tour}/tourItinerary", TourDayItineraryController::class)->names('tour.itinerary');
     });
 
 

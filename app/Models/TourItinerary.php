@@ -24,6 +24,6 @@ class TourItinerary extends Model
 
     public function dayItinerary()
     {
-        return $this->belongsTo(Dayitinerary::class);
+        return $this->belongsTo(Dayitinerary::class, "dayitinerary_id");
     }
 }

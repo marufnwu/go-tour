@@ -2,9 +2,11 @@
 
 use App\Models\City;
 use App\Models\Destination;
+use App\Models\Guide;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Ramsey\Uuid\Guid\Guid;
 
 return new class extends Migration
 {
@@ -22,6 +24,7 @@ return new class extends Migration
             $table->integer("duration")->comment("In days");
             $table->foreignIdFor(City::class, "arrival_city")->nullable();
             $table->foreignIdFor(City::class, "departure_city")->nullable();
+            $table->foreignIdFor(Guide::class)->nullable();
             $table->float("min_price", 10, 2)->nullable();
             $table->float("max_price", 10, 2)->nullable();
             $table->string("banner_image")->nullable();

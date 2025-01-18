@@ -52,4 +52,14 @@ class Tour extends Model
     {
         return $this->hasMany(TourItinerary::class);
     }
+
+    public function getMapUrlAttribute()
+    {
+        return asset($this->map);
+    }
+
+    public function getBannerImageUrlAttribute()
+    {
+        return asset($this->banner_image);
+    }
 }
