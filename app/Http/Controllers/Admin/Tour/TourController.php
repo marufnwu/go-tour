@@ -72,7 +72,7 @@ class TourController extends Controller
         $tour = Tour::create($validatedData);
 
 
-        return redirect()->back()->with('success', 'Tour created successfully!');
+        return redirect()->route("tour.index")->with('success', 'Tour created successfully!');
     }
 
     /**

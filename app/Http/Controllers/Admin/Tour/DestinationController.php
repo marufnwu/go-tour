@@ -48,7 +48,7 @@ class DestinationController extends Controller
         $destination = Destination::create($validatedData);
 
         if ($destination) {
-            return redirect()->route("destination.create")->with(["success" => "Destination created successfully!"]);
+            return redirect()->route("destination.index")->with(["success" => "Destination created successfully!"]);
         }
     }
 

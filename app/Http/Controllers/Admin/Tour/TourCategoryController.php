@@ -44,7 +44,7 @@ class TourCategoryController extends Controller
         );
 
         if($c){
-            return redirect()->route("destination-category.create")->with(["success"=>"Destiantion category created successfully!"]);
+            return redirect()->route("destination-category.index")->with(["success"=>"Destiantion category created successfully!"]);
         }
 
     }

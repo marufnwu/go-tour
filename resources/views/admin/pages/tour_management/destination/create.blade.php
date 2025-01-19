@@ -18,7 +18,7 @@
         <div class="card shadow mb-4">
             <div class="card-header bg-default py-2 d-flex justify-content-between align-items-center">
                 <h4 class="m-0 font-weight-bold text-primary">
-                    <i class="fas fa-user-circle"></i> {{ isset($destination) ? 'Edit' : 'Add' }} Destination Category
+                    <i class="fas fa-user-circle"></i> {{ isset($destination) ? 'Edit' : 'Add' }} Destination
                 </h4>
             </div>
             <form id="ajaxForm" class=""
@@ -32,7 +32,7 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <x-generic-form-input label="Destination Name" name="name" type="text"
-                                placeholder="Category name..." required="true" id="category-name-input"
+                                placeholder="Destination name..." required="true" id="category-name-input"
                                 value="{{ old('name', $destination->name ?? '') }}" />
                         </div>
 
