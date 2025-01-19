@@ -79,6 +79,7 @@
                         </div>
                     </div>
 
+
                     <div class="row py-4">
                         <!-- Travel Dates -->
                         <div class="col-lg-3">
@@ -127,7 +128,7 @@
                             <x-generic-form-input label="Map Image" name="map" type="file"
                                 accept="image/*" />
                             @if (isset($tour->map))
-                                <img src="{{ asset($tour->banner_image) }}" alt="Map Image"
+                                <img src="{{ asset($tour->map) }}" alt="Map Image"
                                     class="img-thumbnail mt-2" style="max-width: 100px;">
                             @endif
                         </div>

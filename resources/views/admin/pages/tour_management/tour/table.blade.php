@@ -28,7 +28,7 @@
                 <td>{{ $item->arrivalCity->city_name }}</td>
                 <td>{{ $item->departureCity->city_name }}</td>
 
-                <td>{{ \Carbon\Carbon::parse($item->travel_start_at)->format('M d, Y') }}</td>
+                <td>{{ \Carbon\Carbon::parse($item->travel_strat_at)->format('M d, Y') }}</td>
                 <td>{{ \Carbon\Carbon::parse($item->travel_end_at)->format('M d, Y') }}</td>
                 <td>{{ \Carbon\Carbon::parse($item->booking_start_at)->format('M d, Y') }}</td>
                 <td>{{ \Carbon\Carbon::parse($item->booking_end_at)->format('M d, Y') }}</td>
@@ -36,6 +36,9 @@
                 @if (auth()->user()->type=='CHCP' || auth()->user()->type=='Admin')
                 <td class="text-center">
 
+                    <a class="btn btn-warning btn-sm" href="{{ route('tour.show',$item->id) }}">
+                        <i class="fas fa-eye"></i>
+                    </a>
                     <a class="btn btn-success btn-sm" href="{{ route('tour.edit',$item->id) }}">
                         <i class="fas fa-edit"></i>
                     </a>

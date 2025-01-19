@@ -5,6 +5,20 @@
   </a>
 </li>
 
+<li class="nav-item">
+    <a class="nav-link {{ request()->is(['manage-tour*'])?'':'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapse-manage-tour" aria-expanded="true" aria-controls="manage-tour">
+        <i class="fas fa-fw fa-user"></i>
+        <span>Manage Tour</span>
+    </a>
+    <div id="collapse-manage-tour" class="collapse {{ request()->is(['manage-tour*'])?'show':'' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item {{ request()->is(['/destination-category/*'])?'active':'' }}" href="{{ route('destination-category.index') }}">Manage Category</a>
+            <a class="collapse-item {{ request()->is(['/destination/*'])?'active':'' }}" href="{{ route('destination.index') }}">Manage Destination</a>
+            <a class="collapse-item {{ request()->is(['/tour/*'])?'active':'' }}" href="{{ route('tour.index') }}">Manage Tour</a>
+        </div>
+    </div>
+  </li>
+
 <li class="nav-item {{ request()->is('user*')?'active':'' }}">
   <a class="nav-link" href="{{ route('user.index') }}">
       <i class="fas fa-fw fa-user"></i>

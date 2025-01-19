@@ -50,7 +50,7 @@ class TourController extends Controller
             'max_price' => 'nullable|numeric|gte:min_price',       // Optional, must be numeric and >= min_price
             'banner_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',           // Optional, banner image file (2MB max)
             'slug' => 'nullable|string|max:255|unique:tours,slug',  // Optional, must be unique in the table
-            'travel_start_at' => 'nullable|date|before_or_equal:travel_end_at', // Optional, must be a valid date
+            'travel_strat_at' => 'nullable|date|before_or_equal:travel_end_at', // Optional, must be a valid date
             'travel_end_at' => 'nullable|date|after_or_equal:travel_start_at',  // Optional, must be a valid date
             'booking_start_at' => 'nullable|date|before_or_equal:booking_end_at', // Optional, must be a valid date
             'booking_end_at' => 'nullable|date|after_or_equal:booking_start_at',  // Optional, must be a valid date
@@ -97,16 +97,48 @@ class TourController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Tour $tour)
     {
-        //
+        $validatedData = $request->validate([
+            'destination_id' => 'required|exists:destinations,id',  // Validate foreign key
+            'number' => 'nullable|integer|min:1',                  // Optional, must be a positive integer
+            'name' => 'required|string|max:255',                  // Required, string with a maximum length
+            'map' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',  // Required map image file (2MB max)
+            'duration' => 'required|integer|min:1',               // Required, must be a positive integer (days)
+            'arrival_city' => 'nullable|exists:city,id',         // Validate foreign key for arrival city
+            'departure_city' => 'nullable|exists:city,id',       // Validate foreign key for departure city
+            'min_price' => 'nullable|numeric|min:0',               // Optional, must be numeric and non-negative
+            'max_price' => 'nullable|numeric|gte:min_price',       // Optional, must be numeric and >= min_price
+            'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',           // Optional, banner image file (2MB max)
+            'slug' => 'nullable|string|max:255|unique:tours,slug,'.$tour->id,  // Optional, must be unique in the table
+            'travel_strat_at' => 'nullable|date|before_or_equal:travel_end_at', // Optional, must be a valid date
+            'travel_end_at' => 'nullable|date|after_or_equal:travel_strat_at',  // Optional, must be a valid date
+            'booking_start_at' => 'nullable|date|before_or_equal:booking_end_at', // Optional, must be a valid date
+            'booking_end_at' => 'nullable|date|after_or_equal:booking_start_at',  // Optional, must be a valid date
+            'is_active' => 'required|boolean',                     // Required, must be true or false
+        ]);
+
+        // Handle map image upload
+        if ($request->hasFile('map')) {
+            $validatedData['map'] = ImageHelper::handleImageUpload($request->file('map'), 'maps');
+        }
+
+        // Handle banner image upload
+        if ($request->hasFile('banner_image')) {
+            $validatedData['banner_image'] = ImageHelper::handleImageUpload($request->file('banner_image'), 'banner_images');
+        }
+
+        $tour->update($validatedData);
+        return redirect()->route('tour.index')->with('success', 'Tour updated successfully.');
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Tour $tour)
     {
-        //
+        $tour->delete();
+        return back()->with("succcess", "Tour deleted successfully");
     }
 }

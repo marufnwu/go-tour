@@ -130,7 +130,7 @@ class DayItineraryController extends Controller
 
         // Handle map image upload
         if ($request->hasFile('image')) {
-            $validatedData['image'] = ImageHelper::handleImageUpload($request->file('image'), 'itineraries');
+            $valideData['image'] = ImageHelper::handleImageUpload($request->file('image'), 'itineraries');
         }
 
 

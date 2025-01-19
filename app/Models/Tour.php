@@ -50,7 +50,7 @@ class Tour extends Model
 
     public function itineraries()
     {
-        return $this->hasMany(TourItinerary::class);
+        return $this->hasMany(TourItinerary::class)->orderBy("day_no");
     }
 
     public function getMapUrlAttribute()
@@ -61,5 +61,22 @@ class Tour extends Model
     public function getBannerImageUrlAttribute()
     {
         return asset($this->banner_image);
+    }
+
+    public function getTravelStratAtAttribute($value)
+    {
+        return $value ? \Carbon\Carbon::parse($value)->format('Y-m-d') : null;
+    }
+    public function getTravelEndAtAttribute($value)
+    {
+        return $value ? \Carbon\Carbon::parse($value)->format('Y-m-d') : null;
+    }
+    public function getBookingStartAtAttribute($value)
+    {
+        return $value ? \Carbon\Carbon::parse($value)->format('Y-m-d') : null;
+    }
+    public function getBookingEndAtAttribute($value)
+    {
+        return $value ? \Carbon\Carbon::parse($value)->format('Y-m-d') : null;
     }
 }

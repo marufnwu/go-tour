@@ -19,10 +19,25 @@
                 <h4 class="m-0 font-weight-bold text-primary">
                     <i class="fas fa-info-circle"></i> Tour Details
                 </h4>
-                <a href="{{ route('tour.index') }}"
-                    class="d-none d-sm-inline-block btn btn-primary shadow-sm btn-rounded">
-                    <i class="fa fa-arrow-left"></i>&nbsp; Back </a>
+                <div class="d-flex align-items-center">
+                    <form class="deleteform d-inline-block m-1" action="{{ route('tour.destroy', $tour->id) }}" method="post">
+                        @csrf
+                        @method('delete')
+                        <button type="submit" class="btn  shadow-sm btn-rounded m-2 btn-danger deletebtn">
+                            <span class="btn-label">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                        </button>
+                    </form>
+                    <a href="{{ route('tour.edit', $tour->id) }}" class="btn btn-success shadow-sm btn-rounded m-2">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a href="{{ route('tour.index') }}" class="btn btn-primary shadow-sm btn-rounded m-1">
+                        <i class="fa fa-arrow-left"></i>
+                    </a>
+                </div>
             </div>
+
         </div>
 
 
@@ -166,6 +181,10 @@
                                             data-parent="#tourItineraryAccordion">
                                             <div class="card-body">
                                                 <h5>Day Itinerary Details</h5>
+                                                @if ($tourItinerary->image)
+                                                <img src="{{ asset($tourItinerary->image) }}" class="img-fluid"
+                                                style="width: 100%; height: 200px; object-fit: cover;" alt="Map Image">
+                                                @endif
                                                 <p><strong>Day No:</strong> {{ $tourItinerary->day_no }}</p>
                                                 <p><strong>Title:</strong> {{ $tourItinerary->title }}</p>
 
@@ -173,16 +192,20 @@
                                                     <h6>Day Itinerary Information:</h6>
                                                     <ul>
                                                         <li><strong>Country:</strong>
-                                                            {{ $tourItinerary->dayItinerary->cntry->country_name ?? 'N/A' }}</li>
+                                                            {{ $tourItinerary->dayItinerary->cntry->country_name ?? 'N/A' }}
+                                                        </li>
                                                         <li><strong>City:</strong>
-                                                            {{ $tourItinerary->dayItinerary->cty->city_name ?? 'N/A' }}</li>
+                                                            {{ $tourItinerary->dayItinerary->cty->city_name ?? 'N/A' }}
+                                                        </li>
                                                         <li><strong>Activity:</strong>
                                                             {{ $tourItinerary->dayItinerary->act->activity_name ?? 'N/A' }}
                                                         </li>
                                                         <li><strong>Sight:</strong>
-                                                            {{ $tourItinerary->dayItinerary->sight->sight_name ?? 'N/A' }}</li>
+                                                            {{ $tourItinerary->dayItinerary->sight->sight_name ?? 'N/A' }}
+                                                        </li>
                                                         <li><strong>Distance:</strong>
-                                                            {{ $tourItinerary->dayItinerary->dis->distant_sight_name ?? 'N/A' }}</li>
+                                                            {{ $tourItinerary->dayItinerary->dis->distant_sight_name ?? 'N/A' }}
+                                                        </li>
                                                         <li><strong>Airport:</strong>
                                                             {{ $tourItinerary->dayItinerary->air->airport_name ?? 'N/A' }}
                                                         </li>
